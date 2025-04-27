@@ -1,0 +1,22 @@
+\babel@toc {ngerman}{}\relax 
+\contentsline {section}{\numberline {1}Einleitung}{2}{}%
+\contentsline {section}{\numberline {2}Grundlagen der Pipeline-Architektur}{2}{}%
+\contentsline {subsection}{\numberline {2.1}Stufen (Stages)}{2}{}%
+\contentsline {subsection}{\numberline {2.2}Puffer (Buffers)}{2}{}%
+\contentsline {subsection}{\numberline {2.3}Datenfluss}{3}{}%
+\contentsline {section}{\numberline {3}Einsatzzweck und Anwendungsfälle}{3}{}%
+\contentsline {section}{\numberline {4}Vor- und Nachteile}{4}{}%
+\contentsline {subsection}{\numberline {4.1}Vorteile}{4}{}%
+\contentsline {subsection}{\numberline {4.2}Nachteile}{4}{}%
+\contentsline {section}{\numberline {5}Praktische Umsetzung: Beispiel einer Datenverarbeitungs-Pipeline}{5}{}%
+\contentsline {subsection}{\numberline {5.1}Gesamtarchitektur}{5}{}%
+\contentsline {subsection}{\numberline {5.2}Implementierungsdetails Stufe 1: Datenerfassung}{6}{}%
+\contentsline {subsection}{\numberline {5.3}Implementierungsdetails Stufe 2: Vorverarbeitung}{7}{}%
+\contentsline {subsection}{\numberline {5.4}Implementierungsdetails Stufe 3: Anreicherung}{7}{}%
+\contentsline {subsection}{\numberline {5.5}Implementierungsdetails Stufe 4: Analyse}{8}{}%
+\contentsline {subsection}{\numberline {5.6}Implementierungsdetails Stufe 5: Speicherung/Ausgabe}{9}{}%
+\contentsline {section}{\numberline {6}Herausforderungen und Lösungsansätze}{9}{}%
+\contentsline {subsection}{\numberline {6.1}Fehlerbehandlung}{9}{}%
+\contentsline {subsection}{\numberline {6.2}Monitoring und Debugging}{10}{}%
+\contentsline {subsection}{\numberline {6.3}Lastverteilung und Skalierung}{11}{}%
+\contentsline {section}{\numberline {7}Schlussfolgerung}{11}{}%
