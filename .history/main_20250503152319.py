@@ -2,7 +2,7 @@
 import os
 from src.pipeline.pipeline import Pipeline
 # Import the new stages
-from src.stages.loading import FileLoaderFactory
+from src.stages.loading.load_csv_stage import LoadCsvStage
 from src.stages.calculate_total_sale_stage import CalculateTotalSaleStage
 from src.stages.filter_electronics_stage import FilterElectronicsStage
 from src.stages.save_output_stage import SaveOutputStage
@@ -17,7 +17,7 @@ def main():
     pipeline = Pipeline()
 
     # Add stages to the pipeline in order
-    pipeline.add_stage(FileLoaderFactory())
+    pipeline.add_stage(LoadCsvStage())
     pipeline.add_stage(CalculateTotalSaleStage())
     pipeline.add_stage(FilterElectronicsStage())
     pipeline.add_stage(SaveOutputStage()) # Add the saving/output stage

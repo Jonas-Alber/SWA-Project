@@ -2,7 +2,7 @@
 import os
 from src.pipeline.pipeline import Pipeline
 # Import the new stages
-from src.stages.loading import FileLoaderFactory
+from src.stages.loading.load_csv_stage import FileLoaderFactory
 from src.stages.calculate_total_sale_stage import CalculateTotalSaleStage
 from src.stages.filter_electronics_stage import FilterElectronicsStage
 from src.stages.save_output_stage import SaveOutputStage
