@@ -7,11 +7,9 @@ class Stage:
         raise NotImplementedError("Subclasses should implement this method")
 class Pipeline:
     def __init__(self):
-        self.stages:list[Stage] = []
+        self.stages = []
 
-    def add_stage(self, stage:Stage):
-        if(not issubclass(stage, Stage)):
-            raise TypeError("stage must be an instance of Stage")
+    def add_stage(self, stage):
         self.stages.append(stage)
 
     def run(self, input_data):

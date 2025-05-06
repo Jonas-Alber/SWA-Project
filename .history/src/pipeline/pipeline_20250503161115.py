@@ -10,8 +10,6 @@ class Pipeline:
         self.stages:list[Stage] = []
 
     def add_stage(self, stage:Stage):
-        if(not issubclass(stage, Stage)):
-            raise TypeError("stage must be an instance of Stage")
         self.stages.append(stage)
 
     def run(self, input_data):

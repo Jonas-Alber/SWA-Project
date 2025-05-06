@@ -22,30 +22,16 @@
 
 \section{Praktische Umsetzung: Beispiel einer Datenverarbeitungs-Pipeline}
 \subsection{Gesamtarchitektur}
-Um die Konzepte der Pipeline-Architektur zu verdeutlichen, betrachten wir im Folgenden eine beispielhafte Datenverarbeitungs-Pipeline. Diese Pipeline ist darauf ausgelegt, Sensordaten zu laden, zu verarbeiten und schließlich zu speichern. Der Startpunkt der Verarbeitung ist das Laden der Daten aus einer Datei.
-
-Die grundlegende Architektur dieser Beispiel-Pipeline ist in Abbildung \ref{fig:architektur} schematisch dargestellt. Sie visualisiert den sequenziellen Fluss der Daten durch die einzelnen Verarbeitungsstufen.
-
-\begin{figure}[htbp] % h: here, t: top, b: bottom, p: page of floats
-    \centering % Center the image
-    % Ersetzen Sie die folgende Zeile durch Ihren tatsächlichen \includegraphics-Befehl
-    \fbox{\parbox[c][8cm][c]{0.9\textwidth}{\centering Platzhalter für Abbildung \texttt{img/architektur.png} \\ (Diagramm der Pipeline-Architektur)}}
-    % Beispiel: \includegraphics[width=0.9\textwidth]{img/architektur.png}
-    \caption{Schematische Darstellung der Datenverarbeitungs-Pipeline mit ihren Hauptstufen.} % Add a caption
-    \label{fig:architektur} % Add a label for referencing
-\end{figure}
-
-Die Pipeline lässt sich in die folgenden logischen Stufen unterteilen, die nacheinander durchlaufen werden:
-
+Im folgenden Beispiel soll auf Basis der Pipeline-Architektur eine einfache Datenverarbeitungs-Pipeline beschrieben werden. Mit dieser Pipeline sollen Sensordaten geladen, verarbeitet und gespeichert werden. Die Pipeline besteht dabei aus mehreren Segmenten wobei der Ladepunkt der Datei als Startpunkt dient.
+Die Architektur ist in Abbildung \ref{fig:architektur} dargestellt. Die einzelnen Stufen sind in der Abbildung nummeriert.
+Die Pipeline besteht aus den folgenden Stufen:
 \begin{enumerate}
-    \item \textbf{Datenerfassung (Laden):} In dieser ersten Stufe werden die Rohdaten von der Datenquelle (z.B. einer Sensordatei) eingelesen. Dies beinhaltet das Öffnen der Datei und das Parsen des Inhalts in eine interne Datenstruktur.
-    \item \textbf{Vorverarbeitung:} Die geladenen Rohdaten werden bereinigt und gefiltert. Dies kann Schritte wie das Entfernen von Ausreißern, das Behandeln fehlender Werte oder das Glätten von Signalen umfassen.
-    \item \textbf{Anreicherung:} Die vorverarbeiteten Daten werden mit zusätzlichen Kontextinformationen angereichert. Beispiele hierfür sind das Hinzufügen von Zeitstempeln, geografischen Koordinaten oder Metadaten zur Datenquelle.
-    \item \textbf{Analyse:} In dieser Stufe erfolgt die eigentliche fachliche Verarbeitung. Dies kann spezifische Berechnungen, die Anwendung von Algorithmen zur Mustererkennung oder die Extraktion relevanter Merkmale beinhalten.
-    \item \textbf{Speicherung/Ausgabe:} Die verarbeiteten Ergebnisse werden persistiert (z.B. in einer Datenbank oder Datei gespeichert) oder an nachfolgende Systeme zur weiteren Verwendung oder Visualisierung übergeben.
+    \item \textbf{Datenerfassung:} Sammeln von Rohdaten von Sensoren.
+    \item \textbf{Vorverarbeitung:} Bereinigen und Filtern der Rohdaten.
+    \item \textbf{Anreicherung:} Hinzufügen von Kontextinformationen (z.B. Zeitstempel, Standort).
+    \item \textbf{Analyse:} Durchführung spezifischer Berechnungen oder Mustererkennung.
+    \item \textbf{Speicherung/Ausgabe:} Persistieren der Ergebnisse oder Weiterleitung an andere Systeme.
 \end{enumerate}
-
-Jede dieser Stufen repräsentiert eine logische Einheit innerhalb der Pipeline. Wie diese Stufen technisch implementiert und zu einer funktionierenden Pipeline zusammengesetzt werden, wird in den folgenden Abschnitten detailliert erläutert, beginnend mit der Implementierung der Pipeline-Steuerung.
 
 \subsection{Implementierung der Pipeline-Steuerung: Die Wrapper-Klasse}
 Nachdem die grundlegende Architektur und die einzelnen Stufen definiert sind, bedarf es einer Komponente, welche die Pipeline als Ganzes verwaltet und deren Ausführung steuert. Hierfür gibt es verschiedene Ansätze:
@@ -65,11 +51,11 @@ Für dieses Beispiel wird der Ansatz der Wrapper-Klasse gewählt, da er eine gut
     \label{fig:wrapper}
 \end{figure}
 
-Die `Pipeline`-Klasse könnte typischerweise Methoden wie `\_\_init\_\_` (zur Initialisierung, z.B. einer leeren Liste für die Stufen), `add\_stage` (zum Hinzufügen einer Stufe zur Pipeline) und `execute` oder `run` (zum Durchlaufen aller Stufen mit den Eingabedaten) besitzen.
+Die `Pipeline`-Klasse könnte typischerweise Methoden wie \texttt{\_\_init\_\_} (zur Initialisierung, z.B. einer leeren Liste für die Stufen), \texttt{add\_stage} (zum Hinzufügen einer Stufe zur Pipeline) und \texttt{execute} oder \texttt{run} (zum Durchlaufen aller Stufen mit den Eingabedaten) besitzen.
 
 Ein zentrales Element dieses Ansatzes ist die Verwendung einer abstrakten Basisklasse oder einer Schnittstelle für die einzelnen Pipeline-Stufen (im Diagramm und folgenden Codebeispiel als `Stage` bezeichnet). Jede konkrete Stufe (wie Datenerfassung, Vorverarbeitung etc.) muss von dieser Basisklasse erben und deren definierte Methoden (z.B. eine `process` oder `execute`-Methode) implementieren. Dies stellt sicher, dass alle Stufen einheitlich behandelt und von der `Pipeline`-Klasse aufgerufen werden können.
 
-Die Wrapper-Klasse kann zudem sicherstellen, dass nur valide Stufen hinzugefügt werden. Dies wird oft durch Typ-Prüfungen realisiert, wie im folgenden Python-Codeausschnitt für die `add\_stage`-Methode gezeigt:
+Die Wrapper-Klasse kann zudem sicherstellen, dass nur valide Stufen hinzugefügt werden. Dies wird oft durch Typ-Prüfungen realisiert, wie im folgenden Python-Codeausschnitt für die `add_stage`-Methode gezeigt:
 
 \begin{verbatim}
 # Innerhalb der Pipeline-Wrapper-Klasse

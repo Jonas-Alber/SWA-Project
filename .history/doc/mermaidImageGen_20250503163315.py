@@ -64,10 +64,10 @@ if __name__ == "__main__":
     # Beispiel Mermaid Code (ersetzen Sie dies mit Ihrem Diagramm)
     pipeline_diagram = """
 graph LR
-    A[Input: file_path] --> C{Read extension};
-    C -- ".csv" --> D[Return CSV Loader];
-    C -- ".txt" --> E[Return TXT Loader];
-    C -- "Not defined" --> F[Raise Error];
+    A[Input: file_path] --> B{Get extension};
+    B --> C{Is extension '.csv'?};
+    C -- Yes --> D[Return CSV Loader];
+    C -- No --> E[Raise Error];
     """
 
     # Definieren Sie den Ausgabepfad und Dateinamen

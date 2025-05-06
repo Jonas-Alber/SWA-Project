@@ -63,15 +63,24 @@ def generate_mermaid_diagram(mermaid_code: str, output_file: str):
 if __name__ == "__main__":
     # Beispiel Mermaid Code (ersetzen Sie dies mit Ihrem Diagramm)
     pipeline_diagram = """
-graph LR
-    A[Input: file_path] --> C{Read extension};
-    C -- ".csv" --> D[Return CSV Loader];
-    C -- ".txt" --> E[Return TXT Loader];
-    C -- "Not defined" --> F[Raise Error];
+    classDiagram
+    direction LR
+    class Pipeline {
+        -stages: list
+        +__init__()
+        +add_stage(stage: Stage)
+        +run(input_data: any) : any
+    }
+    class Stage {
+        <<interface>>
+        +process(data: any) : any
+    }
+
+    Pipeline o-- "*" Stage : contains >
     """
 
     # Definieren Sie den Ausgabepfad und Dateinamen
-    output_png_file = "LoaderFactory.png"
+    output_png_file = "pipeline_diagram.png"
     #output_svg_file = "pipeline_diagram.svg"
 
     # Generieren als PNG

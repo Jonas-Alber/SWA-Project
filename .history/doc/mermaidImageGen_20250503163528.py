@@ -66,7 +66,7 @@ if __name__ == "__main__":
 graph LR
     A[Input: file_path] --> C{Read extension};
     C -- ".csv" --> D[Return CSV Loader];
-    C -- ".txt" --> E[Return TXT Loader];
+    C -- ".csv" --> E[Return TXT Loader];
     C -- "Not defined" --> F[Raise Error];
     """
 
