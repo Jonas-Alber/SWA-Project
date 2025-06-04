@@ -1,0 +1,23 @@
+---
+config:
+  theme: neo-dark
+  look: neo
+  layout: dagre
+---
+flowchart LR
+    A(["Pipeline"]) --> B{"Factory"}
+    B --> C["PNG_Loader"] & D["JPG_Loader"] & E["SVG_Loader"]
+
+    classDef default fill:#FFFFFF, stroke:#AAAAAA,stroke-width:2px,color:#000000;
+
+
+---
+config:
+  theme: neo-dark
+  look: neo
+  layout: dagre
+---
+flowchart LR
+    A(["Pipeline"]) --> B{"Filter"}
+
+    classDef default fill:#FFFFFF, stroke:#AAAAAA,stroke-width:2px,color:#000000;

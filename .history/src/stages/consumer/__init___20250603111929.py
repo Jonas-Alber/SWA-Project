@@ -1,0 +1,1 @@
+from .pyside6Consumer import PySide6Consumer
