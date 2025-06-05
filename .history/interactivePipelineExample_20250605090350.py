@@ -15,7 +15,7 @@ from PySide6.QtWidgets import (
     QWidget, QVBoxLayout, QFormLayout, QLabel,
     QLineEdit, QSpinBox, QDoubleSpinBox, QCheckBox, QPushButton
 )
-from PySide6.QtCore import QThread, Signal, QTimer
+from PySide6.QtCore import QThread, Signal
 from stageConfigWidget import StageConfigWidget
 from PySide6.QtWidgets import QFileDialog, QHBoxLayout
 import time

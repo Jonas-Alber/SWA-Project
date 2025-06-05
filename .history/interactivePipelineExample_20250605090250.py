@@ -15,7 +15,7 @@ from PySide6.QtWidgets import (
     QWidget, QVBoxLayout, QFormLayout, QLabel,
     QLineEdit, QSpinBox, QDoubleSpinBox, QCheckBox, QPushButton
 )
-from PySide6.QtCore import QThread, Signal, QTimer
+from PySide6.QtCore import QThread, Signal
 from stageConfigWidget import StageConfigWidget
 from PySide6.QtWidgets import QFileDialog, QHBoxLayout
 import time
@@ -210,7 +210,6 @@ class MainWindow(QMainWindow):
         # Starte Worker-Thread
         self._run_thread = UpdateWorker(self.pipeline)
         self._run_thread.finished.connect(self._on_update_finished)
-        self._timer.start()
         self._run_thread.start()
         
     def _on_update_finished(self, result):
@@ -231,7 +230,6 @@ class MainWindow(QMainWindow):
         # Starte Worker-Thread
         self._run_thread = RunWorker(self.pipeline, self.input_path)
         self._run_thread.finished.connect(self._on_run_finished)
-        self._timer.start()
         self._run_thread.start()
         
     def _on_run_finished(self, result):

@@ -15,7 +15,7 @@ from PySide6.QtWidgets import (
     QWidget, QVBoxLayout, QFormLayout, QLabel,
     QLineEdit, QSpinBox, QDoubleSpinBox, QCheckBox, QPushButton
 )
-from PySide6.QtCore import QThread, Signal, QTimer
+from PySide6.QtCore import QThread, Signal
 from stageConfigWidget import StageConfigWidget
 from PySide6.QtWidgets import QFileDialog, QHBoxLayout
 import time
@@ -123,10 +123,6 @@ class MainWindow(QMainWindow):
         self.run_btn.clicked.connect(self.on_update)
         self.button_bar.addWidget(self.run_btn)
         # we need a horizontal layout
-        # Timer für Live-Updates der Laufzeit
-        self._timer = QTimer(self)
-        self._timer.setInterval(100)  # alle 100 ms
-        self._timer.timeout.connect(self._on_timer_tick)
 
         # Central widget & layouts: first the button bar, then the main panels
         central = QWidget(self)
@@ -183,21 +179,6 @@ class MainWindow(QMainWindow):
             self.input_path = file_name
             # Update the pipeline with the new input path
             self.on_run()
-
-    def _on_timer_tick(self):
-        # Wenn der Worker noch läuft, aktualisiere das Label
-        if self._run_thread and self._run_thread.isRunning():
-            elapsed = time.time() - self._startTime
-            mode = "Run" if isinstance(self._run_thread, RunWorker) else "Update"
-            self.status_label.setText(
-                f"{mode}: {elapsed:.2f} s  Last run: {self._run_start_time:.2f} s  "
-                f"Last update: {self._update_start_time:.2f} s"
-            )
-        else:
-            # Thread ist fertig → Timer stoppen
-            self._timer.stop()
-            # abschließend das statische Update anzeigen
-            self.updateRunTime()
             
     def on_update(self):
         if self._run_thread and self._run_thread.isRunning():
@@ -210,7 +191,6 @@ class MainWindow(QMainWindow):
         # Starte Worker-Thread
         self._run_thread = UpdateWorker(self.pipeline)
         self._run_thread.finished.connect(self._on_update_finished)
-        self._timer.start()
         self._run_thread.start()
         
     def _on_update_finished(self, result):
@@ -231,7 +211,6 @@ class MainWindow(QMainWindow):
         # Starte Worker-Thread
         self._run_thread = RunWorker(self.pipeline, self.input_path)
         self._run_thread.finished.connect(self._on_run_finished)
-        self._timer.start()
         self._run_thread.start()
         
     def _on_run_finished(self, result):
