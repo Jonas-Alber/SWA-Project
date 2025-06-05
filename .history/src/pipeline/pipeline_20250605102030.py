@@ -1,7 +1,6 @@
 # removed unused enum import
 
 
-from copy import deepcopy
 from enum import Enum, auto
 import threading
 
@@ -139,15 +138,18 @@ class StepPipeline(Pipeline):
 
         def update(self, input_data=None):
             # on first call or if caller passes new input_data, reset step_data
+            print("Sub Old Dirty Index is: ",self._dirty_index)
             if input_data is not None:
-                self._step_data = [deepcopy(input_data)]
+                self._step_data = [input_data]
                 # mark entire pipeline dirty
                 self._dirty_index = 0
+            print("Old Dirty Index is: ",self._dirty_index)
             # if no stage is dirty, do nothing
             if self._dirty_index >= len(self.stages):
                 return self._step_data[-1]
 
             start = self._dirty_index
+            print("Start Index is: ",start)
 
             # reset dirty‐onwards stages back to WAITING
             for i in range(start, len(self.stages)):
@@ -157,10 +159,11 @@ class StepPipeline(Pipeline):
             try:
                 for i in range(start, len(self.stages)):
                     if(i >= len(self._step_data)):
+                        print("No step data for stage", i)
                         continue
-                    out = self.stages[i].execute(deepcopy(self._step_data[i]))
+                    out = self.stages[i].execute(self._step_data[i])
                     if i + 1 < len(self._step_data):
-                        self._step_data[i + 1] = deepcopy(out)
+                        self._step_data[i + 1] = out
                     else:
                         self._step_data.append(out)
             except Exception as e:

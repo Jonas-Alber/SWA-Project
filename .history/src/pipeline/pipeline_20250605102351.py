@@ -158,7 +158,7 @@ class StepPipeline(Pipeline):
                 for i in range(start, len(self.stages)):
                     if(i >= len(self._step_data)):
                         continue
-                    out = self.stages[i].execute(deepcopy(self._step_data[i]))
+                    out = self.stages[i].execute(self._step_data[i])
                     if i + 1 < len(self._step_data):
                         self._step_data[i + 1] = deepcopy(out)
                     else:
