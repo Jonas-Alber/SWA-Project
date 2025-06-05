@@ -11,8 +11,12 @@ class NamedLayer:
 @dataclass
 class PipeDataClass:
     base_image: Image.Image  # Das Bild mit allen permanenten Änderungen
-    edit_baseImage: Image.Image = None
     optional_layers: List[NamedLayer] = field(default_factory=list)
+    
+    @property
+    def base_image_size(self) -> Tuple[int, int]:
+        """Gibt die Größe des Basisbildes zurück."""
+        return self.base_image.size
 
     def add_optional_layer(self, name: str, layer_image: Image.Image):
         """Füge eine neue optionale Ebene mit Namen hinzu."""

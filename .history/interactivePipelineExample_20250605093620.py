@@ -5,7 +5,7 @@ from src.stages.tester import ArucoMarkerWallLineTester
 # Import the new stages
 from PIL import Image
 from src.stages.loading import FileLoaderFactory
-from src.stages.transformer import ArucoMarkerTransformer, CnnChairTransformer, RotateTransformer, FlipTransformer
+from src.stages.transformer import ArucoMarkerTransformer, CnnChairTransformer
 from src.stages.consumer import PySide6Consumer, PySide6WidgetConsumer
 from PySide6.QtWidgets import QApplication, QMainWindow, QWidget, QVBoxLayout, QPushButton
 from PySide6.QtWidgets import QHBoxLayout
@@ -28,8 +28,6 @@ def get_Stages():
     posterImage = Image.open(posterImage)
     return [
         FileLoaderFactory(),
-        RotateTransformer(),
-        FlipTransformer(),
         CnnChairTransformer(),
         ArucoMarkerWallLineTester(),
         ArucoMarkerTransformer(posterImage),
@@ -211,7 +209,7 @@ class MainWindow(QMainWindow):
         # Button deaktivieren, damit nicht nochmal gedrückt wird
         updated_stageWidgets = self.list_ordering_widget.get_ordered_widgets()
         updated_stages = [s.stage for s in updated_stageWidgets if isinstance(s, StageConfigWidget) or isinstance(s, StageInfoWidget)]
-        #self.pipeline.updated_stages(updated_stages)
+        self.pipeline.updated_stages(updated_stages)
         if(self.list_ordering_widget.is_order_changes()):
             self.pipeline = StepPipeline()
             for stage in updated_stages:

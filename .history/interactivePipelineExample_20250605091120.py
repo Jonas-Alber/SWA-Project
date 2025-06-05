@@ -5,7 +5,7 @@ from src.stages.tester import ArucoMarkerWallLineTester
 # Import the new stages
 from PIL import Image
 from src.stages.loading import FileLoaderFactory
-from src.stages.transformer import ArucoMarkerTransformer, CnnChairTransformer, RotateTransformer, FlipTransformer
+from src.stages.transformer import ArucoMarkerTransformer, CnnChairTransformer
 from src.stages.consumer import PySide6Consumer, PySide6WidgetConsumer
 from PySide6.QtWidgets import QApplication, QMainWindow, QWidget, QVBoxLayout, QPushButton
 from PySide6.QtWidgets import QHBoxLayout
@@ -28,8 +28,6 @@ def get_Stages():
     posterImage = Image.open(posterImage)
     return [
         FileLoaderFactory(),
-        RotateTransformer(),
-        FlipTransformer(),
         CnnChairTransformer(),
         ArucoMarkerWallLineTester(),
         ArucoMarkerTransformer(posterImage),
@@ -61,7 +59,7 @@ class UpdateWorker(QThread):
 class StageInfoWidget(QWidget):
         def __init__(self, stage):
             super().__init__()
-            self.stage = stage
+            self._stage = stage
 
             # Horizontal layout to display the stage name
             layout = QHBoxLayout(self)
@@ -108,7 +106,7 @@ class MainWindow(QMainWindow):
 
         # finally assign our stack to self.button_bar
         self.button_bar = _vert
-        
+        self.list_ordering_widget = ListOrderingWidget(stages)
         # timing placeholders
         
         # Open‐file button
@@ -156,9 +154,8 @@ class MainWindow(QMainWindow):
                     continue
             stageWidgetList.append(widget)
             config_layout.addWidget(widget)
-        self.list_ordering_widget = ListOrderingWidget(stageWidgetList)
         config_layout.addStretch()
-        #main_layout.addWidget(config_panel, 1)
+        main_layout.addWidget(config_panel, 1)
         main_layout.addWidget(self.list_ordering_widget, 1)
 
         # Right panel: display widget + Run button
@@ -209,14 +206,6 @@ class MainWindow(QMainWindow):
         if self._run_thread and self._run_thread.isRunning():
             return    # Verhindert mehrfaches Starten
         # Button deaktivieren, damit nicht nochmal gedrückt wird
-        updated_stageWidgets = self.list_ordering_widget.get_ordered_widgets()
-        updated_stages = [s.stage for s in updated_stageWidgets if isinstance(s, StageConfigWidget) or isinstance(s, StageInfoWidget)]
-        #self.pipeline.updated_stages(updated_stages)
-        if(self.list_ordering_widget.is_order_changes()):
-            self.pipeline = StepPipeline()
-            for stage in updated_stages:
-                self.pipeline.add_stage(stage)
-        
         self.run_btn.setEnabled(False)
         self.open_btn.setEnabled(False)
         self._startTime = time.time()  # Startzeit für die Aktualisierung
@@ -237,12 +226,6 @@ class MainWindow(QMainWindow):
     def on_run(self):
         if self._run_thread and self._run_thread.isRunning():
             return    # Verhindert mehrfaches Starten
-        updated_stageWidgets = self.list_ordering_widget.get_ordered_widgets()
-        updated_stages = [s.stage for s in updated_stageWidgets if isinstance(s, StageConfigWidget) or isinstance(s, StageInfoWidget)]
-        #self.pipeline.updated_stages(updated_stages)
-        self.pipeline = StepPipeline()
-        for stage in updated_stages:
-            self.pipeline.add_stage(stage)
         # Button deaktivieren, damit nicht nochmal gedrückt wird
         self.run_btn.setEnabled(False)
         self.open_btn.setEnabled(False)

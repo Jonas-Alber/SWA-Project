@@ -13,6 +13,21 @@ class PipeDataClass:
     base_image: Image.Image  # Das Bild mit allen permanenten Änderungen
     edit_baseImage: Image.Image = None
     optional_layers: List[NamedLayer] = field(default_factory=list)
+    
+    @property
+    def base_image(self) -> Image.Image:
+        """Gibt die Größe des Basisbildes zurück."""
+        if(self.edit_baseImage is not None):
+            return self.edit_baseImage
+        return self.base_image
+    
+    @base_image.setter
+    def base_image(self, image: Image.Image):
+        """Setzt das Basisbild."""
+        if not isinstance(image, Image.Image):
+            raise TypeError("base_image must be a PIL Image.")
+        self.base_image = image.convert("RGBA")
+        
 
     def add_optional_layer(self, name: str, layer_image: Image.Image):
         """Füge eine neue optionale Ebene mit Namen hinzu."""

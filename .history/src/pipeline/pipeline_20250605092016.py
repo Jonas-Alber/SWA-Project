@@ -48,14 +48,14 @@ class Stage:
     
     def getConfigElements(self)->list[StageConfigElement]:
         return [
-            StageConfigElement(text="Enabled", data_type=bool, data=self._stage_visible)
+            StageConfigElement(text="Visible", data_type=bool, data=self._stage_visible)
         ]
     
     def setConfigElements(self, config_elements:list[StageConfigElement]):
         for elem in config_elements:
-            if elem.text == "Enabled":
+            if elem.text == "Visible":
                 if not isinstance(elem.data, bool):
-                    raise TypeError("Enable must be a boolean")
+                    raise TypeError("Visible must be a boolean")
                 self._stage_visible = elem.data
         self.notify_change()
 
@@ -94,9 +94,10 @@ class StepPipeline(Pipeline):
             self._step_data: list = []
             # index of the earliest stage that needs re-running
             self._dirty_index = 0
+            # store original input for incremental updates
+            self._original_input = None
             
         def updated_stages(self, stages: list[Stage]):
-            self.stages = []
             self.stages = stages
             # reset dirty index to 0, so the next run will execute all stages
             self._dirty_index = 0
@@ -128,22 +129,27 @@ class StepPipeline(Pipeline):
 
                 thread = threading.Thread(target=_run, daemon=True)
                 thread.start()
-                return thread
-            
         def run(self, input_data):
+            # store original input for future updates
+            self._original_input = input_data
             # clear any prior step data and force full rerun
             self._step_data = []
             print("Run Call, set dirty index to 0")
             self._dirty_index = 0
-            return self.update(input_data)
-
         def update(self, input_data=None):
+            # if called without new data after config change, fall back to original input
+            if input_data is None and not self._step_data and self._original_input is not None:
+                input_data = self._original_input
             # on first call or if caller passes new input_data, reset step_data
             print("Sub Old Dirty Index is: ",self._dirty_index)
             if input_data is not None:
                 self._step_data = [input_data]
                 # mark entire pipeline dirty
                 self._dirty_index = 0
+            print("Old Dirty Index is: ",self._dirty_index)
+            # if no stage is dirty, do nothing
+            if self._dirty_index >= len(self.stages):
+                return self._step_data[-1]
             print("Old Dirty Index is: ",self._dirty_index)
             # if no stage is dirty, do nothing
             if self._dirty_index >= len(self.stages):
@@ -157,20 +163,12 @@ class StepPipeline(Pipeline):
                 self.stages[i].setStage(StageState.WAITING)
 
             # execute only from the first dirty stage
-            try:
-                for i in range(start, len(self.stages)):
-                    if(i >= len(self._step_data)):
-                        print("No step data for stage", i)
-                        continue
-                    out = self.stages[i].execute(self._step_data[i])
-                    if i + 1 < len(self._step_data):
-                        self._step_data[i + 1] = out
-                    else:
-                        self._step_data.append(out)
-            except Exception as e:
-                print(len(self.stages), start)
-                print(f"Error in stage: {e}")
-                raise e
+            for i in range(start, len(self.stages)):
+                out = self.stages[i].execute(self._step_data[i])
+                if i + 1 < len(self._step_data):
+                    self._step_data[i + 1] = out
+                else:
+                    self._step_data.append(out)
 
             # mark all clean
             self._dirty_index = len(self.stages)

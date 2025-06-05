@@ -34,7 +34,7 @@ class ListOrderingWidget(QWidget):
         layout.addWidget(self.list_widget)
         self.setLayout(layout)
 
-    def is_order_changes(self) -> bool:
+    def is_order:changes(self) -> bool:
         """
         Überprüft, ob die Reihenfolge der Widgets geändert wurde.
         """

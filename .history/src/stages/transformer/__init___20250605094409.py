@@ -1,3 +1,3 @@
 from .arucoMarkerTransformer import ArucoMarkerTransformer
 from .cnnChairTransformer import CnnChairTransformer
-from .rotateTransformer import RotateTransformer, FlipTransformer
+from .rotateTransformer import RotateTransformer

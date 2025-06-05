@@ -48,14 +48,14 @@ class Stage:
     
     def getConfigElements(self)->list[StageConfigElement]:
         return [
-            StageConfigElement(text="Enabled", data_type=bool, data=self._stage_visible)
+            StageConfigElement(text="Visible", data_type=bool, data=self._stage_visible)
         ]
     
     def setConfigElements(self, config_elements:list[StageConfigElement]):
         for elem in config_elements:
-            if elem.text == "Enabled":
+            if elem.text == "Visible":
                 if not isinstance(elem.data, bool):
-                    raise TypeError("Enable must be a boolean")
+                    raise TypeError("Visible must be a boolean")
                 self._stage_visible = elem.data
         self.notify_change()
 
@@ -96,7 +96,6 @@ class StepPipeline(Pipeline):
             self._dirty_index = 0
             
         def updated_stages(self, stages: list[Stage]):
-            self.stages = []
             self.stages = stages
             # reset dirty index to 0, so the next run will execute all stages
             self._dirty_index = 0
@@ -159,18 +158,13 @@ class StepPipeline(Pipeline):
             # execute only from the first dirty stage
             try:
                 for i in range(start, len(self.stages)):
-                    if(i >= len(self._step_data)):
-                        print("No step data for stage", i)
-                        continue
                     out = self.stages[i].execute(self._step_data[i])
                     if i + 1 < len(self._step_data):
                         self._step_data[i + 1] = out
                     else:
                         self._step_data.append(out)
             except Exception as e:
-                print(len(self.stages), start)
-                print(f"Error in stage: {e}")
-                raise e
+                print(f"Error in stage {self.stages[start].name}: {e}")
 
             # mark all clean
             self._dirty_index = len(self.stages)

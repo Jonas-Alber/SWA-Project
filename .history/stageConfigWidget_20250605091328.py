@@ -31,10 +31,10 @@ class _UpdateWorker(QObject):
 class  StageConfigWidget(QWidget):
     def __init__(self, stage):
         super().__init__()
-        self.stage: Stage = stage
-        self.stage.registerStateChangeCallback(self._onStateChangeCallback)
+        self._stage: Stage = stage
+        self._stage.registerStateChangeCallback(self._onStateChangeCallback)
         self._widgets = {}    # map each config element to its input widget or a dict of {key: checkbox_widget} for dict type
-        self._elements = self.stage.getConfigElements()
+        self._elements = self._stage.getConfigElements()
 
         # Layouts
         main_layout = QVBoxLayout(self)
@@ -100,7 +100,7 @@ class  StageConfigWidget(QWidget):
         ...
 
     def _updateAsync(self):
-        self.stage.setConfigElements(self._updated)
+        self._stage.setConfigElements(self._updated)
 
     def _on_save(self):
         self._updated = []
@@ -123,4 +123,4 @@ class  StageConfigWidget(QWidget):
                 elem.data = widget_or_map.text()
             self._updated.append(elem)
         # apply changes to the stage
-        self.stage.setConfigElements(self._updated)
+        self._stage.setConfigElements(self._updated)

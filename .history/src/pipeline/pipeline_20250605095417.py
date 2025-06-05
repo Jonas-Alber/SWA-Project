@@ -55,7 +55,7 @@ class Stage:
         for elem in config_elements:
             if elem.text == "Enabled":
                 if not isinstance(elem.data, bool):
-                    raise TypeError("Enable must be a boolean")
+                    raise TypeError("Enabled must be a boolean")
                 self._stage_visible = elem.data
         self.notify_change()
 
