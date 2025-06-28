@@ -34,13 +34,12 @@ pdfpagemode=FullScreen,
 \tikzstyle{pipe_label} = [font=\footnotesize, fill=white, inner sep=1pt]
 
 \title{Ausarbeitung zum Pipeline-Architekturstil}
-\author{Alber Jonas, Schweitzer Tim}
+\author{Alber Jonas (Matrikelnummer), Schweitzer Tim 29844429}
 \date{\today}
 \begin{document}
 
 \maketitle
 
-% ... (Dein Text bis zum ersten Schaubild bleibt gleich) ...
 \begin{abstract}
 \noindent % Verhindert Einzug
 Der Pipeline-Architekturstil (Pipes-and-Filters) ist ein etabliertes Paradigma zur Strukturierung von Systemen in modulare, sequenzielle Verarbeitungsschritte. Aufgrund seiner konzeptionellen Einfachheit und Modularität eignet er sich besonders für datenflussorientierte Aufgaben.\cite{richards2020} Diese Ausarbeitung analysiert die Kernprinzipien dieses Stils, beleuchtet typische Anwendungsfelder und bewertet kritisch dessen Vor- und Nachteile. Ein besonderer Fokus liegt auf der Evolution von traditionellen, monolithischen Implementierungen hin zu modernen, verteilten Streaming-Paradigmen und den damit verbundenen neuen Herausforderungen. Die Untersuchung unterstreicht die anhaltende Relevanz des Musters für die Bewältigung komplexer Datenverarbeitungsaufgaben.
@@ -151,6 +150,8 @@ Die scheinbare Einfachheit des Pipeline-Stils birgt versteckte Komplexitäten. G
 \textbf{Moderne, verteilte Implementierungen} (z.B. mit Microservices) lösen diese Probleme, führen aber neue, gravierende Herausforderungen ein:
 \begin{itemize}
 \item \textbf{Massiv erhöhte operationelle Komplexität:} Die einfache Anwendungslogik wird mit dem Aufwand für Deployment, Konfiguration, Service Discovery und verteiltes Monitoring "erkauft". Dies erfordert spezialisierte Werkzeuge (z.B. Kubernetes) und tiefes Know-how.\cite{richards2020}
+Cloud-Plattformen wie Microsoft Azure bieten hierfür dedizierte, verwaltete Dienste (z.B. Azure Functions als Filter und Azure Service Bus als Pipe), welche die Implementierung erleichtern, die zugrundeliegende Komplexität aber nicht vollständig eliminieren.\cite{azure_pipes_filters}
+
 \item \textbf{Fehlerbehandlung und Resilienz:} Dieser Aspekt wird oft vernachlässigt. Was passiert, wenn ein Filter in der Mitte der Kette ausfällt? Eine End-to-End-Transaktionalität existiert typischerweise nicht. Robuste Systeme erfordern daher explizite Resilienz-Muster:
     \begin{itemize}
         \item \textbf{Dead Letter Queues (DLQ):} Um Nachrichten, die wiederholt nicht verarbeitet werden können, zur Analyse auszulagern und die Pipeline nicht zu blockieren.
