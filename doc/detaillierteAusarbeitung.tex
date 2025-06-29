@@ -5,6 +5,7 @@
 \usepackage[margin=2.5cm]{geometry}
 \usepackage{graphicx}
 \usepackage{caption}
+\usepackage{float}
 
 % --- ERWEITERTE TIKZ-BIBLIOTHEKEN FÜR BESSERE SCHAUBILDER ---
 \usepackage{tikz}
@@ -225,10 +226,14 @@ Abbildung \ref{fig:application_structure} illustriert den Aufbau der Demo-Anwend
     \label{fig:application_structure}
 \end{figure}
 
+% Die samepage-Umgebung stellt sicher, dass der Absatz und die dazugehörige Abbildung
+% nicht durch einen Seitenumbruch getrennt werden.
 \begin{samepage}
 Die GUI selbst ist nicht Teil der Pipeline, sondern nach dem MVC-Pattern aufgebaut. Sie nutzt lediglich die Pipeline-Architektur. Dadurch bleibt die Pipeline unabhängig von der GUI und kann auch an anderer Stelle wiederverwendet werden. Abbildung \ref{fig:gui_pipeline_interface} verdeutlicht diese Trennung: Die GUI steuert die Pipeline lediglich an und zeigt die Ergebnisse an, ohne direkt in deren Logik einzugreifen.
 
-\begin{figure}[htbp]
+% HIER IST DIE KORREKTUR: [H] anstelle von [htbp] verwenden, um die Position zu erzwingen.
+% Dafür muss \usepackage{float} in der Präambel geladen sein.
+\begin{figure}[H]
     \centering
     \includegraphics[width=0.7\textwidth]{img/GuiPipelineInterface.png}
     \caption{Kommunikation zwischen GUI und Pipeline.}
@@ -248,6 +253,7 @@ Wird die Pipeline über den „Open“-Button gestartet, öffnet sich zunächst 
 
 \subsection{Implementierung der Pipeline-Steuerung: Die Wrapper-Klasse}
 Die Implementierung einer Pipeline kann auf verschiedene Arten erfolgen, die sich hinsichtlich Flexibilität, Erweiterbarkeit und Entwicklungsaufwand unterscheiden. Gängige Ansätze sind:
+
 
 \begin{itemize}
     \item \textbf{Direkte Implementierung im Code:} Die Reihenfolge der Stufen wird direkt im Code festgelegt. Das ist für kleine Pipelines einfach, wird aber bei wachsender Komplexität schnell unübersichtlich und schwer wartbar.
