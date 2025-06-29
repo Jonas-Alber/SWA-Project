@@ -8,9 +8,7 @@
 \usepackage[ngerman]{babel} % German language support
 \usepackage{geometry}       % For page layout adjustments
 \usepackage{lipsum}         % For generating dummy text to fill pages
-% Remove document class and preamble for inclusion
-% Remove title, author, and date commands
-% Adjust document structure for inclusion
+\usepackage{blindtext}      % Another package for dummy text
 
 % Adjust page margins if needed (optional, default article margins are usually fine)
 % \geometry{a4paper, margin=2.5cm}
@@ -30,7 +28,7 @@ Abbildung \ref{fig:application_structure} illustriert den Aufbau der Demo-Anwend
 
 \begin{figure}[htbp]
     \centering
-    \includegraphics[width=0.7\textwidth]{img/ApplicationStructure.png}
+    \includegraphics[width=0.5\textwidth]{img/ApplicationStructure.png}
     \caption{Aufbau der Demo-GUI.}
     \label{fig:application_structure}
 \end{figure}
@@ -40,7 +38,7 @@ Die GUI selbst ist nicht Teil der Pipeline, sondern nach dem MVC-Pattern aufgeba
 
 \begin{figure}[htbp]
     \centering
-    \includegraphics[width=0.7\textwidth]{img/GuiPipelineInterface.png}
+    \includegraphics[width=0.5\textwidth]{img/GuiPipelineInterface.png}
     \caption{Kommunikation zwischen GUI und Pipeline.}
     \label{fig:gui_pipeline_interface}
 \end{figure}
@@ -54,7 +52,6 @@ Wird die Pipeline über den „Open“-Button gestartet, öffnet sich zunächst 
     \item \textbf{Tester:} Tester-Stufen prüfen, ob die Transformer korrekt angewendet wurden und die Ergebnisse den Erwartungen entsprechen.
     \item \textbf{Consumer:} Die verarbeiteten Ergebnisse werden gespeichert (z.B. in einer Datei oder Datenbank) oder an nachfolgende Systeme weitergegeben, etwa an die GUI zur Anzeige.
 \end{enumerate}
-
 
 \subsection{Implementierung der Pipeline-Steuerung: Die Wrapper-Klasse}
 Die Implementierung einer Pipeline kann auf verschiedene Arten erfolgen, die sich hinsichtlich Flexibilität, Erweiterbarkeit und Entwicklungsaufwand unterscheiden. Gängige Ansätze sind:

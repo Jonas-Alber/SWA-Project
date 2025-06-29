@@ -1,8 +1,8 @@
 PWD /Users/jonasalber/Documents/SWA-Project/doc
 INPUT /opt/homebrew/Cellar/texlive/20250308_1/share/texmf-dist/web2c/texmf.cnf
 INPUT /opt/homebrew/Cellar/texlive/20250308_1/share/texmf-var/web2c/pdftex/pdflatex.fmt
-INPUT /Users/jonasalber/Documents/SWA-Project/doc/docu.tex
-OUTPUT docu.log
+INPUT /Users/jonasalber/Documents/SWA-Project/doc/docu copy.tex
+OUTPUT docu copy.log
 INPUT /opt/homebrew/Cellar/texlive/20250308_1/share/texmf-dist/tex/latex/base/article.cls
 INPUT /opt/homebrew/Cellar/texlive/20250308_1/share/texmf-dist/tex/latex/base/article.cls
 INPUT /opt/homebrew/Cellar/texlive/20250308_1/share/texmf-dist/tex/latex/base/size10.clo
@@ -65,10 +65,14 @@ INPUT /opt/homebrew/Cellar/texlive/20250308_1/share/texmf-dist/tex/latex/l3backe
 INPUT /opt/homebrew/Cellar/texlive/20250308_1/share/texmf-dist/tex/latex/l3backend/l3backend-pdftex.def
 INPUT /opt/homebrew/Cellar/texlive/20250308_1/share/texmf-dist/tex/latex/lipsum/lipsum.ltd.tex
 INPUT /opt/homebrew/Cellar/texlive/20250308_1/share/texmf-dist/tex/latex/lipsum/lipsum.ltd.tex
-INPUT ./docu.aux
-INPUT ./docu.aux
-INPUT docu.aux
-OUTPUT docu.aux
+INPUT /opt/homebrew/Cellar/texlive/20250308_1/share/texmf-dist/tex/latex/blindtext/blindtext.sty
+INPUT /opt/homebrew/Cellar/texlive/20250308_1/share/texmf-dist/tex/latex/blindtext/blindtext.sty
+INPUT /opt/homebrew/Cellar/texlive/20250308_1/share/texmf-dist/tex/latex/tools/xspace.sty
+INPUT /opt/homebrew/Cellar/texlive/20250308_1/share/texmf-dist/tex/latex/tools/xspace.sty
+INPUT ./docu copy.aux
+INPUT ./docu copy.aux
+INPUT docu copy.aux
+OUTPUT docu copy.aux
 INPUT /opt/homebrew/Cellar/texlive/20250308_1/share/texmf-dist/tex/context/base/mkii/supp-pdf.mkii
 INPUT /opt/homebrew/Cellar/texlive/20250308_1/share/texmf-dist/tex/context/base/mkii/supp-pdf.mkii
 INPUT /opt/homebrew/Cellar/texlive/20250308_1/share/texmf-dist/tex/context/base/mkii/supp-pdf.mkii
@@ -85,7 +89,7 @@ INPUT ./img/ApplicationStructure.png
 INPUT ./img/ApplicationStructure.png
 INPUT ./img/ApplicationStructure.png
 INPUT ./img/ApplicationStructure.png
-OUTPUT docu.pdf
+OUTPUT docu copy.pdf
 INPUT ./img/ApplicationStructure.png
 INPUT ./img/GuiPipelineInterface.png
 INPUT ./img/GuiPipelineInterface.png
@@ -113,7 +117,7 @@ INPUT ./img/PipelineFactory.png
 INPUT ./img/PipelineFactory.png
 INPUT ./img/PipelineFactory.png
 INPUT ./img/PipelineFactory.png
-INPUT docu.aux
+INPUT docu copy.aux
 INPUT /opt/homebrew/Cellar/texlive/20250308_1/share/texmf-dist/fonts/type1/public/cm-super/sfbx1000.pfb
 INPUT /opt/homebrew/Cellar/texlive/20250308_1/share/texmf-dist/fonts/type1/public/cm-super/sfbx1200.pfb
 INPUT /opt/homebrew/Cellar/texlive/20250308_1/share/texmf-dist/fonts/type1/public/cm-super/sfbx1440.pfb

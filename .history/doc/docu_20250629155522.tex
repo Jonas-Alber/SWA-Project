@@ -8,9 +8,7 @@
 \usepackage[ngerman]{babel} % German language support
 \usepackage{geometry}       % For page layout adjustments
 \usepackage{lipsum}         % For generating dummy text to fill pages
-% Remove document class and preamble for inclusion
-% Remove title, author, and date commands
-% Adjust document structure for inclusion
+\usepackage{blindtext}      % Another package for dummy text
 
 % Adjust page margins if needed (optional, default article margins are usually fine)
 % \geometry{a4paper, margin=2.5cm}
@@ -26,24 +24,24 @@
 \subsection{Gesamtarchitektur}
 Um die Konzepte der Pipeline-Architektur zu verdeutlichen, ist dieser Ausarbeitung eine Beispielanwendung beigelegt. Diese Anwendung zeigt anschaulich, wie eine Pipeline aufgebaut ist und welche Vorteile sie bietet.
 
-Abbildung \ref{fig:application_structure} illustriert den Aufbau der Demo-Anwendung. Im Bereich „Pipeline Start“ befinden sich zwei Schaltflächen: „Open“ und „Update“. Mit „Open“ wird der Pipeline-Prozess gestartet, mit „Update“ kann dieser aktualisiert werden. Im Bereich „Pipeline Config“ kann der Nutzer verschiedene Pipeline-Segmente aktivieren und deren Parameter konfigurieren, um unterschiedliche Ergebnisse zu erzielen. Die verarbeiteten Bilder werden anschließend im Bereich „Ergebnis Ausgabe“ angezeigt, sodass der Benutzer die Pipeline-Ergebnisse live verfolgen kann.
-
-\begin{figure}[htbp]
+\begin{figure}[H]
     \centering
-    \includegraphics[width=0.7\textwidth]{img/ApplicationStructure.png}
+    \includegraphics[width=0.8\textwidth]{img/ApplicationStructure.png}
     \caption{Aufbau der Demo-GUI.}
     \label{fig:application_structure}
 \end{figure}
 
-\begin{samepage}
-Die GUI selbst ist nicht Teil der Pipeline, sondern nach dem MVC-Pattern aufgebaut. Sie nutzt lediglich die Pipeline-Architektur. Dadurch bleibt die Pipeline unabhängig von der GUI und kann auch an anderer Stelle wiederverwendet werden. Abbildung \ref{fig:gui_pipeline_interface} verdeutlicht diese Trennung: Die GUI steuert die Pipeline lediglich an und zeigt die Ergebnisse an, ohne direkt in deren Logik einzugreifen.
+Abbildung \ref{fig:application_structure} illustriert den Aufbau der Demo-Anwendung. Im Bereich „Pipeline Start“ befinden sich zwei Schaltflächen: „Open“ und „Update“. Mit „Open“ wird der Pipeline-Prozess gestartet, mit „Update“ kann dieser aktualisiert werden. Im Bereich „Pipeline Config“ kann der Nutzer verschiedene Pipeline-Segmente aktivieren und deren Parameter konfigurieren, um unterschiedliche Ergebnisse zu erzielen. Die verarbeiteten Bilder werden anschließend im Bereich „Ergebnis Ausgabe“ angezeigt, sodass der Benutzer die Pipeline-Ergebnisse live verfolgen kann.
 
-\begin{figure}[htbp]
+\begin{samepage}
+\begin{figure}[H]
     \centering
-    \includegraphics[width=0.7\textwidth]{img/GuiPipelineInterface.png}
+    \includegraphics[width=0.8\textwidth]{img/GuiPipelineInterface.png}
     \caption{Kommunikation zwischen GUI und Pipeline.}
     \label{fig:gui_pipeline_interface}
 \end{figure}
+
+Die GUI selbst ist nicht Teil der Pipeline, sondern nach dem MVC-Pattern aufgebaut. Sie nutzt lediglich die Pipeline-Architektur. Dadurch bleibt die Pipeline unabhängig von der GUI und kann auch an anderer Stelle wiederverwendet werden. Abbildung \ref{fig:gui_pipeline_interface} verdeutlicht diese Trennung: Die GUI steuert die Pipeline lediglich an und zeigt die Ergebnisse an, ohne direkt in deren Logik einzugreifen.
 \end{samepage}
 
 Wird die Pipeline über den „Open“-Button gestartet, öffnet sich zunächst ein Dateiauswahldialog, in dem der Benutzer die zu verarbeitende Datei auswählt. Dies ist der Einstiegspunkt in die Pipeline, die aus den folgenden Stufen besteht:
@@ -54,7 +52,6 @@ Wird die Pipeline über den „Open“-Button gestartet, öffnet sich zunächst 
     \item \textbf{Tester:} Tester-Stufen prüfen, ob die Transformer korrekt angewendet wurden und die Ergebnisse den Erwartungen entsprechen.
     \item \textbf{Consumer:} Die verarbeiteten Ergebnisse werden gespeichert (z.B. in einer Datei oder Datenbank) oder an nachfolgende Systeme weitergegeben, etwa an die GUI zur Anzeige.
 \end{enumerate}
-
 
 \subsection{Implementierung der Pipeline-Steuerung: Die Wrapper-Klasse}
 Die Implementierung einer Pipeline kann auf verschiedene Arten erfolgen, die sich hinsichtlich Flexibilität, Erweiterbarkeit und Entwicklungsaufwand unterscheiden. Gängige Ansätze sind:
@@ -69,7 +66,7 @@ Für die Beispielanwendung ist die Wrapper-Klasse der beste Ansatz. Sie trennt d
 
 Die Wrapper-Klasse prüft zudem, dass nur gültige Stufen hinzugefügt werden. Dies geschieht durch Typ-Prüfungen, wie im folgenden Python-Codeausschnitt für die Methode \texttt{add\_stage} gezeigt:
 
-\begin{figure}[htbp]
+\begin{figure}[H]
     \centering
     \includegraphics[width=0.8\textwidth]{img/wrapper.png}
     \caption{Klassendiagramm der Pipeline Wrapper-Klasse (\texttt{Pipeline}) und der abstrakten Stufenklasse (\texttt{Stage}).}
@@ -80,7 +77,7 @@ Damit Änderungen in einer Stage nur gezielt nachfolgende Stages beeinflussen, i
 
 Da die Demo eine Bildbearbeitung demonstriert, muss zwischen globalen und lokalen Änderungen unterschieden werden. Globale Änderungen betreffen das gesamte Bild (z.B. Drehen), während lokale Änderungen (z.B. Bounding Boxes von neuronalen Netzen oder Poster, die per Arucomarker platziert werden) nicht nachfolgende Filter beeinflussen sollen. Globale Änderungen greifen direkt auf das \texttt{base\_image\_from\_source} zu, während lokale Änderungen über \texttt{add\_optional\_layer} in eine Liste optionaler Layer eingetragen werden. Diese Layer werden in der Consumer-Stage zusammengeführt und als Ergebnis ausgegeben. Der Aufbau der \texttt{PipeDataClass} ist in Abbildung \ref{fig:pipeDataClass} dargestellt.
 
-\begin{figure}[htbp]
+\begin{figure}[H]
     \centering
     \includegraphics[width=0.8\textwidth]{img/PipeDataClass.png}
     \caption{Aufbau der PipeDataClass}
@@ -107,7 +104,7 @@ Der Ablauf ist typischerweise wie folgt:
 
 Abbildung \ref{fig:loaderFactory} zeigt diesen Entscheidungsprozess. Die Factory prüft das angeforderte Format und wählt den passenden Loader aus. Ist kein passender Loader registriert oder existiert die Datei nicht, wird ein Fehler ausgelöst oder ein Null-Objekt zurückgegeben. Für die Pipeline ist dieser Prozess transparent – der Loader verhält sich wie eine normale Stage-Klasse.
 
-\begin{figure}[htbp]
+\begin{figure}[H]
     \centering
     \includegraphics[width=0.8\textwidth]{img/PipelineFactory.png}
     \caption{Entscheidungsdiagramm der LoaderFactory zur Auswahl des passenden Datenladers basierend auf dem Dateiformat.}

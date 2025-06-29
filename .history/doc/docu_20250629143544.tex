@@ -1,0 +1,106 @@
+\documentclass[a4paper]{article} % Specify A4 paper
+
+% Optional packages
+\usepackage[utf8]{inputenc} % Allows UTF-8 input
+\usepackage[T1]{fontenc}    % Selects font encodings
+\usepackage{amsmath}        % For mathematical formulas
+\usepackage{graphicx}       % To include images
+\usepackage[ngerman]{babel} % German language support
+\usepackage{geometry}       % For page layout adjustments
+\usepackage{lipsum}         % For generating dummy text to fill pages
+\usepackage{blindtext}      % Another package for dummy text
+
+% Adjust page margins if needed (optional, default article margins are usually fine)
+% \geometry{a4paper, margin=2.5cm}
+
+% Document information
+\title{Dokumentation zur Pipeline-Architektur}
+\author{Ihr Name / Projektgruppe}
+\date{\today}
+
+\begin{document}
+
+\section{Praktische Umsetzung: Beispiel einer Datenverarbeitungs-Pipeline}
+\subsection{Gesamtarchitektur}
+
+Das aktuelle Pipeline-Framework ist so konzipiert, dass es eine flexible, erweiterbare und robuste Verarbeitungskette für beliebige Datenverarbeitungsaufgaben bereitstellt. Im Zentrum steht die Idee, dass jede Verarbeitungsstufe als eigenständiges Objekt (eine sogenannte \texttt{Stage}) implementiert wird. Diese Stages werden von einer zentralen \texttt{Pipeline}-Klasse verwaltet, die für die Ausführung, das Fehler- und Statusmanagement sowie die Konfiguration der gesamten Pipeline verantwortlich ist.
+
+Die Architektur ist darauf ausgelegt, dass Stages dynamisch hinzugefügt, entfernt oder in ihrer Reihenfolge verändert werden können. Jede Stage besitzt einen eigenen Lebenszyklus und Status (z.B. \texttt{UNINITIALIZED}, \texttt{RUNNING}, \texttt{FINISHED}, \texttt{ERROR}), der von der Pipeline überwacht wird. Über Callbacks können externe Komponenten oder die GUI auf Statusänderungen reagieren.
+
+Die wichtigsten Komponenten sind:
+\begin{itemize}
+    \item \textbf{Stage:} Abstrakte Basisklasse für alle Verarbeitungsschritte. Jede Stage implementiert die Methode \texttt{process(data)}, in der die eigentliche Logik der Stufe abgebildet wird. Über \texttt{execute(data)} wird die Stage ausgeführt, Statusänderungen werden automatisch verwaltet.
+    \item \textbf{StageConfigElement:} Dient der Konfiguration einzelner Stages. Jede Stage kann beliebig viele Konfigurationselemente besitzen, die zur Laufzeit angepasst werden können.
+    \item \textbf{Pipeline:} Verwaltet eine Liste von Stages, steuert die Ausführung der gesamten Pipeline und bietet Methoden zum Hinzufügen, Entfernen und Ausführen von Stages. Fehler in einzelnen Stages werden erkannt und führen nicht zum Absturz der gesamten Pipeline.
+    \item \textbf{StepPipeline:} Eine Spezialisierung der Pipeline, die eine schrittweise Ausführung (z.B. für Debugging oder interaktive Anwendungen) ermöglicht.
+    \item \textbf{State-Management und Callbacks:} Jede Stage kann Callbacks für Statusänderungen registrieren, sodass z.B. eine Benutzeroberfläche oder ein Monitoring-System direkt auf Fortschritt oder Fehler reagieren kann.
+\end{itemize}
+
+Abbildung \ref{fig:architektur} zeigt die modulare Architektur und den sequentiellen Datenfluss.
+
+\begin{figure}[htbp]
+    \centering
+    % \includegraphics[width=0.9\textwidth]{img/architektur.png}
+    \fbox{\parbox[c][8cm][c]{0.9\textwidth}{\centering Platzhalter für Abbildung \texttt{img/architektur.png} \\ (Diagramm der Pipeline-Architektur)}}
+    \caption{Schematische Darstellung der modularen Pipeline-Architektur mit dynamischen Stages und Statusmanagement.}
+    \label{fig:architektur}
+\end{figure}
+
+\subsection{Stufen und Ablauf}
+
+Die Pipeline besteht aus einer beliebigen Abfolge von Stages, die jeweils eine klar definierte Aufgabe übernehmen. Typische Stufen in einer realen Anwendung könnten sein:
+\begin{enumerate}
+    \item \textbf{Datenquelle / Loader:} Lädt Rohdaten aus einer Datei, Datenbank oder API. Die konkrete Loader-Stage wird dynamisch (z.B. per Factory Pattern) je nach Datenquelle ausgewählt.
+    \item \textbf{Vorverarbeitung:} Bereinigt, filtert oder transformiert die geladenen Daten (z.B. Entfernen von Ausreißern, Normalisierung).
+    \item \textbf{Anreicherung:} Ergänzt die Daten um Kontextinformationen (z.B. Zeitstempel, Metadaten, externe Referenzen).
+    \item \textbf{Analyse:} Führt fachliche Auswertungen, Berechnungen oder Mustererkennung durch.
+    \item \textbf{Speicherung / Ausgabe:} Persistiert die Ergebnisse oder gibt sie an nachgelagerte Systeme weiter.
+\end{enumerate}
+
+Die Reihenfolge und die konkrete Ausgestaltung der Stages ist vollständig konfigurierbar. Neue Stages können einfach durch Ableiten von der \texttt{Stage}-Basisklasse und Implementierung der \texttt{process}-Methode hinzugefügt werden.
+
+\subsection{Implementierung der Pipeline-Steuerung: Die Wrapper-Klasse}
+
+Die zentrale Steuerung übernimmt die \texttt{Pipeline}-Klasse. Sie verwaltet die Liste der Stages, sorgt für die korrekte Initialisierung, Ausführung und das Fehlerhandling. Die Ausführung erfolgt sequenziell: Das Ergebnis einer Stage wird an die nächste weitergegeben. Jede Stage kann ihren Status ändern, Fehler melden oder Callbacks auslösen.
+
+Ein typischer Ablauf sieht so aus:
+\begin{enumerate}
+    \item Die Pipeline wird mit einer Liste von Stages initialisiert.
+    \item Für jede Stage kann eine individuelle Konfiguration gesetzt werden (\texttt{StageConfigElement}).
+    \item Die Pipeline wird gestartet (\texttt{execute(data)}), das Startobjekt wird an die erste Stage übergeben.
+    \item Jede Stage verarbeitet die Daten, setzt ihren Status und gibt das Ergebnis an die nächste Stage weiter.
+    \item Fehler in einer Stage führen zum Status \texttt{ERROR}, die Pipeline kann darauf reagieren (z.B. abbrechen, überspringen, Logging).
+    \item Über Callbacks können externe Komponenten auf Statusänderungen reagieren.
+\end{enumerate}
+
+Ein Beispiel für die Implementierung einer Stage:
+\begin{verbatim}
+class MyStage(Stage):
+    def process(self, data):
+        # eigene Logik
+        return bearbeitete_daten
+\end{verbatim}
+
+Das Hinzufügen einer Stage zur Pipeline erfolgt typischerweise so:
+\begin{verbatim}
+pipeline = Pipeline()
+pipeline.add_stage(MyStage("Vorverarbeitung"))
+\end{verbatim}
+
+Die Pipeline prüft beim Hinzufügen, ob das Objekt tatsächlich eine Stage ist und erzwingt so die Einhaltung der Schnittstelle.
+
+\subsection{Statusmanagement und Callbacks}
+
+Jede Stage besitzt einen eigenen Status, der über die Pipeline und nach außen kommuniziert werden kann. Statusänderungen (z.B. von \texttt{RUNNING} zu \texttt{FINISHED} oder \texttt{ERROR}) können über Callbacks an andere Komponenten (z.B. GUI, Logging, Monitoring) gemeldet werden. Dies ermöglicht eine feingranulare Überwachung und Steuerung der Pipeline im laufenden Betrieb.
+
+\subsection{Konfiguration und Erweiterbarkeit}
+
+Die Konfiguration einzelner Stages erfolgt über \texttt{StageConfigElement}-Objekte, die beliebige Parameter aufnehmen können. Dadurch ist es möglich, die Pipeline flexibel an unterschiedliche Anforderungen anzupassen, ohne den Code der Stages selbst ändern zu müssen.
+
+Neue Stages, neue Status oder zusätzliche Funktionalitäten (wie parallele Ausführung, asynchrone Verarbeitung oder spezielle Fehlerbehandlung) können durch Ableitung und Erweiterung der bestehenden Klassen einfach ergänzt werden.
+
+\subsection{Zusammenfassung}
+
+Das vorgestellte Pipeline-Framework bietet eine robuste, modulare und erweiterbare Grundlage für komplexe Datenverarbeitungsaufgaben. Durch die konsequente Trennung der Stufen, das Statusmanagement und die Unterstützung von Callbacks ist es sowohl für einfache als auch für anspruchsvolle Szenarien geeignet. Die Architektur fördert Wiederverwendbarkeit, Testbarkeit und eine klare Strukturierung des Codes.
+
+\end{document}

@@ -1,6 +1,6 @@
 # Fdb version 4
-["pdflatex"] 1751205553.05691 "/Users/jonasalber/Documents/SWA-Project/doc/docu.tex" "docu.pdf" "docu" 1751205553.71606 0
-  "/Users/jonasalber/Documents/SWA-Project/doc/docu.tex" 1751205552.82119 12409 5908d6a9a6bd81935e3e8ae6cae27a62 ""
+["pdflatex"] 1751205507.38875 "/Users/jonasalber/Documents/SWA-Project/doc/docu copy.tex" "docu copy.pdf" "docu copy" 1751205508.00399 0
+  "/Users/jonasalber/Documents/SWA-Project/doc/docu copy.tex" 1751205506.22466 12335 545c274959af6b5a0e34c6237c304a06 ""
   "/opt/homebrew/Cellar/texlive/20250308_1/share/texmf-dist/fonts/enc/dvips/cm-super/cm-super-t1.enc" 1741388039 2971 def0b6c1f0b107b3b936def894055589 ""
   "/opt/homebrew/Cellar/texlive/20250308_1/share/texmf-dist/fonts/enc/dvips/cm-super/cm-super-ts1.enc" 1741388039 2900 1537cc8184ad1792082cd229ecc269f4 ""
   "/opt/homebrew/Cellar/texlive/20250308_1/share/texmf-dist/fonts/map/fontname/texfonts.map" 1741388039 3524 cb3e574dea2d1052e39280babc910dc8 ""
@@ -36,6 +36,7 @@
   "/opt/homebrew/Cellar/texlive/20250308_1/share/texmf-dist/tex/latex/base/fontenc.sty" 1741388039 5275 0d62fb62162c7ab056e941ef18c5076d ""
   "/opt/homebrew/Cellar/texlive/20250308_1/share/texmf-dist/tex/latex/base/inputenc.sty" 1741388039 5048 0270515b828149155424600fd2d58ac5 ""
   "/opt/homebrew/Cellar/texlive/20250308_1/share/texmf-dist/tex/latex/base/size10.clo" 1741388039 8448 5cf247d4bd0c7d5d711bbbdf111fae2e ""
+  "/opt/homebrew/Cellar/texlive/20250308_1/share/texmf-dist/tex/latex/blindtext/blindtext.sty" 1741388039 47295 de48b7f8ebf4b54709a2f6b2c7106dd5 ""
   "/opt/homebrew/Cellar/texlive/20250308_1/share/texmf-dist/tex/latex/epstopdf-pkg/epstopdf-base.sty" 1741388039 13886 d1306dcf79a944f6988e688c1785f9ce ""
   "/opt/homebrew/Cellar/texlive/20250308_1/share/texmf-dist/tex/latex/geometry/geometry.sty" 1741388039 41601 9cf6c5257b1bc7af01a58859749dd37a ""
   "/opt/homebrew/Cellar/texlive/20250308_1/share/texmf-dist/tex/latex/graphics-cfg/graphics.cfg" 1741388039 1224 978390e9c2234eab29404bc21b268d1e ""
@@ -50,17 +51,18 @@
   "/opt/homebrew/Cellar/texlive/20250308_1/share/texmf-dist/tex/latex/latexconfig/epstopdf-sys.cfg" 1741388039 678 4792914a8f45be57bb98413425e4c7af ""
   "/opt/homebrew/Cellar/texlive/20250308_1/share/texmf-dist/tex/latex/lipsum/lipsum.ltd.tex" 1741388039 95525 6fd0552101a6b1f9b7a84b402ec435ba ""
   "/opt/homebrew/Cellar/texlive/20250308_1/share/texmf-dist/tex/latex/lipsum/lipsum.sty" 1741388039 14690 c2c754218a7108db7823a4839c1bc3cd ""
+  "/opt/homebrew/Cellar/texlive/20250308_1/share/texmf-dist/tex/latex/tools/xspace.sty" 1741388039 4545 e3f4de576c914e2000f07f69a891c071 ""
   "/opt/homebrew/Cellar/texlive/20250308_1/share/texmf-dist/web2c/texmf.cnf" 1741388039 42151 79f67285bdd95beca4d137b380b4b9e5 ""
   "/opt/homebrew/Cellar/texlive/20250308_1/share/texmf-var/web2c/pdftex/pdflatex.fmt" 1741388039 3346141 1288109d02d1c772df65535881471649 ""
-  "docu.aux" 1751205553.66722 2197 07f0e2d6d8cefdc437bb22b19b565f47 "pdflatex"
-  "docu.tex" 1751205552.82119 12409 5908d6a9a6bd81935e3e8ae6cae27a62 ""
+  "docu copy.aux" 1751205507.95998 2197 07f0e2d6d8cefdc437bb22b19b565f47 "pdflatex"
+  "docu copy.tex" 1751205506.22466 12335 545c274959af6b5a0e34c6237c304a06 ""
   "img/ApplicationStructure.png" 1751202009.25217 82493 c7c77f4ce20d2801001342c06f0c2ec8 ""
   "img/GuiPipelineInterface.png" 1751202653.45681 43925 4a14e7c7335d74fb255268078bb13536 ""
   "img/PipeDataClass.png" 1751204143.00777 90827 6d128c75611b153e3a1b22e0f35bdf70 ""
   "img/PipelineFactory.png" 1751204346.52514 87215 dde9da394e7dc182cb3776d217946271 ""
   "img/wrapper.png" 1746281095.18119 23783 fba1e569b796851837a60a8ee2d5c0df ""
   (generated)
-  "docu.aux"
-  "docu.log"
-  "docu.pdf"
+  "docu copy.aux"
+  "docu copy.log"
+  "docu copy.pdf"
   (rewritten before read)
